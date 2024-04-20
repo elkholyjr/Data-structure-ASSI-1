@@ -1,18 +1,19 @@
 #include <iostream>
 using namespace std;
-
+template<typename T>
 class Node {
 public:
-    int data;
+    T data;
     Node* next;
 
-    Node(int value) : data(value), next(nullptr) {}
+    Node(T value) : data(value), next(nullptr) {}
 };
 
+template<typename T>
 class LinkedQueue {
 private:
-    Node* front;
-    Node* rear;
+    Node<T>* front;
+    Node<T>* rear;
     int size;
 
 public:
@@ -22,8 +23,8 @@ public:
         clear();
     }
 
-    void enqueue(int e) {
-        Node* newNode = new Node(e);
+    void enqueue(T e) {
+        Node<T>* newNode = new Node<T>(e);
         if (isEmpty()) {
             front = rear = newNode;
         } else {
@@ -33,12 +34,12 @@ public:
         ++size;
     }
 
-    int dequeue() {
+    T dequeue() {
         if (isEmpty()) {
             return -1;
         }
-        int dequeuedElement = front->data;
-        Node* temp = front;
+        T dequeuedElement = front->data;
+        Node<T>* temp = front;
         front = front->next;
         delete temp;
         --size;
@@ -48,7 +49,7 @@ public:
         return dequeuedElement;
     }
 
-    int first() {
+    T first() {
         if (isEmpty()) {
             return -1;
         }
@@ -70,7 +71,7 @@ public:
     }
 
     void print() {
-        Node* current = front;
+        Node<T>* current = front;
         while (current != nullptr) {
             cout << current->data << " ";
             current = current->next;
@@ -81,4 +82,3 @@ public:
 
 int main() {
 }
-
