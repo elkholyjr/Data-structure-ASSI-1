@@ -1,49 +1,48 @@
 #include <iostream>
 #include <stdexcept>
-
 using namespace std;
-
-class CreateQueue {
+template<typename T>
+class Queue {
 private:
-    int* arr;
-    int mxSize;
+    T* arr;
+    int maxSize;
     int front;
     int rear;
     int currentSize;
 
 public:
-    CreateQueue(int size) {
-        mxSize = size;
-        arr = new int[mxSize];
+    Queue(int size) {
+        maxSize = size;
+        arr = new T[maxSize];
         front = 0;
         rear = -1;
         currentSize = 0;
     }
 
-    ~CreateQueue() {
+    ~Queue() {
         delete[] arr;
     }
 
-    void enqueue(int element) {
-        if (currentSize == mxSize) {
+    void enqueue(T element) {
+        if (currentSize == maxSize) {
             throw overflow_error("Queue is full");
         }
-        rear = (rear + 1) % mxSize;
+        rear = (rear + 1) % maxSize;
         arr[rear] = element;
         ++currentSize;
     }
 
-    int dequeue() {
+    T dequeue() {
         if (isEmpty()) {
             throw underflow_error("Queue is empty");
         }
-        int dequeuedElement = arr[front];
-        front = (front + 1) % mxSize;
+        T dequeuedElement = arr[front];
+        front = (front + 1) % maxSize;
         --currentSize;
         return dequeuedElement;
     }
 
-    int first() {
+    T first() {
         if (isEmpty()) {
             throw underflow_error("Queue is empty");
         }
@@ -69,7 +68,7 @@ public:
         int count = 0;
         while (count < currentSize) {
             cout << arr[i] << " ";
-            i = (i + 1) % mxSize;
+            i = (i + 1) % maxSize;
             ++count;
         }
         cout << endl;
