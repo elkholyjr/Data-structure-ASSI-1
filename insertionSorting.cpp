@@ -48,9 +48,8 @@ void ByNameInsertionSort(vector<T>& arr, int& cnt) {
         while (j >= 0 && key < arr[j]) {
             arr[j + 1] = arr[j];
             j = j - 1;
-            ++cnt;
-
         }
+        ++cnt;
         arr[j + 1] = key;
     }
 }
@@ -64,9 +63,8 @@ void ByGpaInsertionSort(vector<T>& arr, Compare comp, int& cnt) {
         while (j >= 0 && comp(key, arr[j])) {
             arr[j + 1] = arr[j];
             j = j - 1;
-            ++cnt;
-
         }
+        ++cnt;
         arr[j + 1] = key;
     }
 }
@@ -107,6 +105,7 @@ int main() {
     auto duration = duration_cast<milliseconds>(stop - start);
 
     outputByName << "Algorithm: Insertion Sort\n";
+    outputByName << "Number of comparisons:" << nameComparisons<<"\n";
     outputByName << "Running Time: " << duration.count() << " milliseconds\n";
     outputByName << "Sorted by Name:\n";
     for (const auto& s : students) {
@@ -123,6 +122,7 @@ int main() {
     duration = duration_cast<milliseconds>(stop - start);
 
     outputByGPA << "Algorithm: Insertion Sort\n";
+    outputByGPA << "Number of comparisons:" << gpaComparisons<<"\n";
     outputByGPA << "Running Time: " << duration.count() << " milliseconds\n";
     outputByGPA << "Sorted by GPA:\n";
     for (const auto& s : students) {
