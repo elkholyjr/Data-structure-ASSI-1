@@ -41,101 +41,66 @@ public:
 };
 
 template <typename T>
-void merge(vector<T> &arr, int l, int m, int r, int &comparisons)
+int partition(vector<T> &arr, int low, int high, int &comparisons)
 {
-    const int n1 = m - l + 1;
-    const int n2 = r - m;
+    T pivot = arr[high];
+    int i = low - 1;
 
-    vector<T> L, R;
-    for (int i = 0; i < n1; i++)
-        L.push_back(arr[l + i]);
-    for (int j = 0; j < n2; j++)
-        R.push_back(arr[m + 1 + j]);
-
-    int i = 0, j = 0, k = l;
-    while (i < n1 && j < n2)
+    for (int j = low; j < high; j++)
     {
-        if (L[i] < R[j])
+        if (arr[j] < pivot)
         {
-            arr[k++] = L[i++];
-        }
-        else
-        {
-            arr[k++] = R[j++];
+            i++;
+            swap(arr[i], arr[j]);
         }
         comparisons++;
     }
 
-    while (i < n1)
-    {
-        arr[k++] = L[i++];
-    }
-
-    while (j < n2)
-    {
-        arr[k++] = R[j++];
-    }
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
 }
 
 template <typename T, typename Compare>
-void merge(vector<T> &arr, int l, int m, int r, int &comparisons, Compare cmp)
+int partition(vector<T> &arr, int low, int high, int &comparisons, Compare compare)
 {
-    int n1 = m - l + 1;
-    int n2 = r - m;
+    T pivot = arr[high];
+    int i = low - 1;
 
-    vector<T> L, R;
-    for (int i = 0; i < n1; i++)
-        L.push_back(arr[l + i]);
-    for (int j = 0; j < n2; j++)
-        R.push_back(arr[m + 1 + j]);
-
-    int i = 0, j = 0, k = l;
-    while (i < n1 && j < n2)
+    for (int j = low; j < high; j++)
     {
-        if (cmp(L[i], R[j]))
+        if (compare(arr[j], pivot))
         {
-            arr[k++] = L[i++];
-        }
-        else
-        {
-            arr[k++] = R[j++];
+            i++;
+            swap(arr[i], arr[j]);
         }
         comparisons++;
     }
 
-    while (i < n1)
-    {
-        arr[k++] = L[i++];
-    }
-
-    while (j < n2)
-    {
-        arr[k++] = R[j++];
-    }
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
 }
 
 template <typename T>
-void mergeSort(vector<T> &arr, int l, int r, int &comparisons)
+void quickSort(vector<T> &arr, int low, int high, int &comparisons)
 {
-    if (l < r)
+    if (low < high)
     {
-        int m = l + (r - l) / 2;
+        int pi = partition(arr, low, high, comparisons);
 
-        mergeSort(arr, l, m, comparisons);
-        mergeSort(arr, m + 1, r, comparisons);
-        merge(arr, l, m, r, comparisons);
+        quickSort(arr, low, pi - 1, comparisons);
+        quickSort(arr, pi + 1, high, comparisons);
     }
 }
 
 template <typename T, typename Compare>
-void mergeSort(vector<T> &arr, int l, int r, int &comparisons, Compare cmp)
+void quickSort(vector<T> &arr, int low, int high, int &comparisons, Compare compare)
 {
-    if (l < r)
+    if (low < high)
     {
-        int m = l + (r - l) / 2;
-        mergeSort(arr, l, m, comparisons, cmp);
-        mergeSort(arr, m + 1, r, comparisons, cmp);
-        merge(arr, l, m, r, comparisons, cmp);
+        int pi = partition(arr, low, high, comparisons, compare);
+
+        quickSort(arr, low, pi - 1, comparisons, compare);
+        quickSort(arr, pi + 1, high, comparisons, compare);
     }
 }
 
@@ -172,7 +137,7 @@ int main()
 
     auto start = high_resolution_clock::now();
     // Sorting by name || insertion sort
-    mergeSort(students, 0, students.size() - 1, nameComparisons);
+    quickSort(students, 0, students.size() - 1, nameComparisons);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
 
@@ -190,12 +155,12 @@ int main()
 
     start = high_resolution_clock::now();
     // Sorting by GPA || insertion sort
-    mergeSort(students, 0, students.size() - 1, gpaComparisons, [](const student &s1, const student &s2) -> bool
+    quickSort(students, 0, students.size() - 1, gpaComparisons, [](const student &s1, const student &s2) -> bool
               { return s1.getGpa() < s2.getGpa(); });
     stop = high_resolution_clock::now();
     duration = duration_cast<milliseconds>(stop - start);
 
-    outputByGPA << "Algorithm: Merge Sort\n";
+    outputByGPA << "Algorithm: Quick Sort\n";
     outputByGPA << "Number of comparisons:" << gpaComparisons << "\n";
     outputByGPA << "Running Time: " << duration.count() << " milliseconds\n";
     outputByGPA << "Sorted by GPA:\n";
