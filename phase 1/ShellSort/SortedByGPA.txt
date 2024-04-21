@@ -1,0 +1,17 @@
+Algorithm: Quick Sort
+Number of comparisons:2
+Running Time: 0 milliseconds
+Sorted by GPA:
+Mariam
+69712
+3.7
+Ali
+3541
+3.5
+Sara Ahmed
+78697
+3.1
+Mohamed Kamal
+97848
+2.2
+
