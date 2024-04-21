@@ -261,6 +261,15 @@ public:
         Node<T> *temp = fnd1->next;
         fnd1->next = fnd2->next;
         fnd2->next = temp;
+
+        if (fnd1->next == nullptr)
+        {
+            tail = fnd1;
+        }
+        if (fnd2->next == nullptr)
+        {
+            tail = fnd2;
+        }
     }
 
     int linkedListSize()
@@ -279,4 +288,27 @@ public:
 
 int main()
 {
+    LinkList<int> myList;
+    myList.insertAtHead(1);
+    myList.insertAtHead(2);
+    myList.insertAtHead(3);
+    myList.insertAtHead(4);
+    myList.print();
+    myList.swap(0, 3);
+    cout << myList.linkedListSize() << '\n';
+
+    myList.print();
+    myList.insertAtTail(5);
+    myList.insertAtTail(6);
+    cout << myList.linkedListSize() << '\n';
+    myList.print();
+    myList.removeAtTail();
+    cout << myList.linkedListSize() << '\n';
+    myList.print();
+    myList.removeAtHead();
+    cout << myList.linkedListSize() << '\n';
+    myList.print();
+    myList.clear();
+    cout << myList.linkedListSize() << '\n';
+    myList.print();
 }
