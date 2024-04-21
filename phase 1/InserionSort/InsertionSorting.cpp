@@ -35,14 +35,35 @@ public:
 
     bool operator<(const student &other) const
     {
-        return this->name < other.name;
+        if (name == other.name)
+        {
+            return gpa < other.gpa;
+        }
+        return name < other.name;
     }
 };
 
-template <typename T, typename Compare>
-int CountSort(vector<T> &arr, Compare comp)
+template <typename T>
+void ByNameInsertionSort(vector<T> &arr, int &cnt)
 {
-    int cnt = 0;
+    int n = arr.size();
+    for (int i = 1; i < n; ++i)
+    {
+        T key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && key < arr[j])
+        {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        ++cnt;
+        arr[j + 1] = key;
+    }
+}
+
+template <typename T, typename Compare>
+void ByGpaInsertionSort(vector<T> &arr, Compare comp, int &cnt)
+{
     int n = arr.size();
     for (int i = 1; i < n; ++i)
     {
@@ -56,22 +77,22 @@ int CountSort(vector<T> &arr, Compare comp)
         ++cnt;
         arr[j + 1] = key;
     }
-    return cnt;
 }
 
 int main()
 {
     vector<student> students;
 
-    ifstream file("students.txt");
+    ifstream file("../students.txt");
+
     if (!file)
     {
         cout << "Error opening file." << endl;
         return 1;
     }
 
-    int nameComparisons{0};
-    int gpaComparisons{0};
+    int nameComparisons = 0;
+    int gpaComparisons = 0;
 
     int numStudents;
     file >> numStudents;
@@ -92,8 +113,7 @@ int main()
 
     auto start = high_resolution_clock::now();
     // Sorting by name || insertion sort
-    nameComparisons = CountSort(students, [](const student &s1, const student &s2)
-                                { return s1.getName() < s2.getName(); });
+    ByNameInsertionSort(students, nameComparisons);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
 
@@ -111,8 +131,10 @@ int main()
 
     start = high_resolution_clock::now();
     // Sorting by GPA || insertion sort
-    gpaComparisons = CountSort(students, [](const student &s1, const student &s2)
-                               { return s1.getGpa() < s2.getGpa(); });
+    ByGpaInsertionSort(
+        students, [](const student &s1, const student &s2)
+        { return s1.getGpa() < s2.getGpa(); },
+        gpaComparisons);
     stop = high_resolution_clock::now();
     duration = duration_cast<milliseconds>(stop - start);
 
