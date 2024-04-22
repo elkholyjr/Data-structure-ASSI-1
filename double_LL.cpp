@@ -246,6 +246,7 @@ void doubleLinkedList<T>::swap(int firstItemIdx, int secondItemIdx) {
 
     node *firstNode = first;
     node *secondNode = first;
+
     for (int i = 0; i < firstItemIdx; i++) {
         firstNode = firstNode->next;
     }
@@ -253,9 +254,33 @@ void doubleLinkedList<T>::swap(int firstItemIdx, int secondItemIdx) {
         secondNode = secondNode->next;
     }
 
-    int temp = firstNode->data;
-    firstNode->data = secondNode->data;
-    secondNode->data = temp;
+    node *firstPrev = firstNode->prev;
+    node *firstNext = firstNode->next;
+    node *secondPrev = secondNode->prev;
+    node *secondNext = secondNode->next;
+
+    if (firstPrev != nullptr)firstPrev->next = secondNode;
+    if (firstNext != nullptr)firstNext->prev = secondNode;
+    if (secondPrev != nullptr)secondPrev->next = firstNode;
+    if (secondNext != nullptr)secondNext->prev = firstNode;
+
+    node *temPrev = firstNode->prev;
+    node *temNext = firstNode->next;
+
+    firstNode->prev = secondNode->prev;
+    firstNode->next = secondNode->next;
+    secondNode->prev = temPrev;
+    secondNode->next = temNext;
+
+    if (firstPrev == nullptr)
+        first = secondNode;
+    if (secondPrev == nullptr)
+        first = firstNode;
+
+    if (firstNext== nullptr)
+        last=secondNode;
+    if (secondNext== nullptr)
+        last=firstNode;
 }
 
 template <typename T>
@@ -277,6 +302,7 @@ int main() {
     myList.insertAtTail(10);
     myList.insertAtTail(20);
     myList.insertAtTail(30);
+    myList.insertAtTail(40);
 
     cout << "our current List: ";
     myList.print();
@@ -327,8 +353,8 @@ int main() {
         cout << "Element (15) does not equal the item at index 0" << endl;
     }
 
-    myList.swap(0, 2);
-    cout << "Our List After Swapping Indices 0 and 2: ";
+    myList.swap(0, 3);
+    cout << "Our List After Swapping Indices 0 and 3: ";
     myList.print();
 
     cout << "Clear our list" << endl;
