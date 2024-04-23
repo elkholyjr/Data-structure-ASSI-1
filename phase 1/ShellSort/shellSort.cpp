@@ -114,12 +114,11 @@ int main()
     ofstream outputByGPA("SortedByGPA.txt");
 
     auto start = high_resolution_clock::now();
-    // Sorting by name || insertion sort
     shellSort(students, nameComparisons);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
 
-    outputByName << "Algorithm: Count Sort\n";
+    outputByName << "Algorithm: Shell Sort\n";
     outputByName << "Number of comparisons:" << nameComparisons << "\n";
     outputByName << "Running Time: " << duration.count() << " milliseconds\n";
     outputByName << "Sorted by Name:\n";
@@ -138,7 +137,7 @@ int main()
     stop = high_resolution_clock::now();
     duration = duration_cast<milliseconds>(stop - start);
 
-    outputByGPA << "Algorithm: Quick Sort\n";
+    outputByGPA << "Algorithm: Shell Sort\n";
     outputByGPA << "Number of comparisons:" << gpaComparisons << "\n";
     outputByGPA << "Running Time: " << duration.count() << " milliseconds\n";
     outputByGPA << "Sorted by GPA:\n";
