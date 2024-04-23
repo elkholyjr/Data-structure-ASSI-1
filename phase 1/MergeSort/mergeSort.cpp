@@ -176,7 +176,7 @@ int main()
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
 
-    outputByName << "Algorithm: Count Sort\n";
+    outputByName << "Algorithm: Merge Sort\n";
     outputByName << "Number of comparisons:" << nameComparisons << "\n";
     outputByName << "Running Time: " << duration.count() << " milliseconds\n";
     outputByName << "Sorted by Name:\n";
@@ -189,7 +189,6 @@ int main()
     outputByName << endl;
 
     start = high_resolution_clock::now();
-    // Sorting by GPA || insertion sort
     mergeSort(students, 0, students.size() - 1, gpaComparisons, [](const student &s1, const student &s2) -> bool
               { return s1.getGpa() < s2.getGpa(); });
     stop = high_resolution_clock::now();
