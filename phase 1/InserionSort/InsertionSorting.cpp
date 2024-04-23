@@ -55,8 +55,9 @@ void ByNameInsertionSort(vector<T> &arr, int &cnt)
         {
             arr[j + 1] = arr[j];
             j = j - 1;
+            ++cnt;
+
         }
-        ++cnt;
         arr[j + 1] = key;
     }
 }
@@ -73,8 +74,9 @@ void ByGpaInsertionSort(vector<T> &arr, Compare comp, int &cnt)
         {
             arr[j + 1] = arr[j];
             j = j - 1;
+            ++cnt;
         }
-        ++cnt;
+        
         arr[j + 1] = key;
     }
 }
