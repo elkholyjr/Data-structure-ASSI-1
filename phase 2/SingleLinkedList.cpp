@@ -1,53 +1,45 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 template <class T>
-class Node
-{
-public:
+class Node {
+  public:
     T value;
     Node<T> *next;
-    Node(T value, Node *next)
-    {
+    Node(T value, Node *next) {
         this->value = value;
         this->next = next;
     }
 };
 
 template <class T>
-class LinkList
-{
-private:
+class LinkList {
+  private:
     Node<T> *head;
     Node<T> *tail;
     int size;
-    void firstAdd(T value)
-    {
+    void firstAdd(T value) {
         size++;
         Node<T> *newNode = new Node<T>(value, nullptr);
         head = newNode;
         tail = newNode;
     }
 
-    void lastRemove()
-    {
+    void lastRemove() {
         delete head;
         head = nullptr;
         tail = nullptr;
         size--;
     }
 
-public:
-    LinkList()
-    {
+  public:
+    LinkList() {
         tail = head = nullptr;
         size = 0;
     }
 
-    void insertAtTail(T value)
-    {
-        if (size == 0)
-        {
+    void insertAtTail(T value) {
+        if (size == 0) {
             firstAdd(value);
             return;
         }
@@ -57,10 +49,8 @@ public:
         size++;
     }
 
-    void insertAtHead(T value)
-    {
-        if (size == 0)
-        {
+    void insertAtHead(T value) {
+        if (size == 0) {
             firstAdd(value);
             return;
         }
@@ -68,12 +58,10 @@ public:
         size++;
     }
 
-    void removeAtHead()
-    {
+    void removeAtHead() {
         if (size == 0)
             return;
-        if (size == 1)
-        {
+        if (size == 1) {
             lastRemove();
             return;
         }
@@ -83,19 +71,16 @@ public:
         size--;
     }
 
-    void removeAtTail()
-    {
+    void removeAtTail() {
         if (size == 0)
             return;
-        if (size == 1)
-        {
+        if (size == 1) {
             lastRemove();
             return;
         }
         Node<T> *A = head;
         Node<T> *B = head;
-        while (B->next != nullptr)
-        {
+        while (B->next != nullptr) {
             A = B;
             B = B->next;
         }
@@ -105,38 +90,31 @@ public:
         size--;
     }
 
-    void print()
-    {
+    void print() {
         Node<T> *curr = head;
-        while (curr != nullptr)
-        {
+        while (curr != nullptr) {
             cout << curr->value << ' ';
             curr = curr->next;
         }
         cout << '\n';
     }
 
-    bool isEmpty()
-    {
+    bool isEmpty() {
         return (size == 0);
     }
 
-    void insertAt(T value, int index)
-    {
-        if (index == 0)
-        {
+    void insertAt(T value, int index) {
+        if (index == 0) {
             insertAtHead(value);
             return;
         }
-        if (index == size)
-        {
+        if (index == size) {
             insertAtTail(value);
             return;
         }
         Node<T> *curr = head;
         Node<T> *before = head;
-        while (index)
-        {
+        while (index) {
             before = curr;
             curr = curr->next;
             index--;
@@ -145,26 +123,21 @@ public:
         size++;
     }
 
-    void removeAt(int index)
-    {
-        if (size == 0)
-        {
+    void removeAt(int index) {
+        if (size == 0) {
             return;
         }
-        if (size == 1)
-        {
+        if (size == 1) {
             lastRemove();
             return;
         }
-        if (index == 0)
-        {
+        if (index == 0) {
             removeAtHead();
             return;
         }
         Node<T> *A = head;
         Node<T> *B = head;
-        while (index--)
-        {
+        while (index--) {
             A = B;
             B = B->next;
         }
@@ -173,35 +146,28 @@ public:
         size--;
     }
 
-    T retrieveAt(int index)
-    {
+    T retrieveAt(int index) {
         Node<T> *curr = head;
-        while (index)
-        {
+        while (index) {
             index--;
             curr = curr->next;
         }
         return curr->value;
     }
 
-    void replaceAt(T value, int index)
-    {
+    void replaceAt(T value, int index) {
         Node<T> *curr = head;
-        while (index)
-        {
+        while (index) {
             index--;
             curr = curr->next;
         }
         curr->value = value;
     }
 
-    bool isExist(T value)
-    {
+    bool isExist(T value) {
         Node<T> *curr = head;
-        while (curr != nullptr)
-        {
-            if (curr->value == value)
-            {
+        while (curr != nullptr) {
+            if (curr->value == value) {
                 return true;
             }
             curr = curr->next;
@@ -209,51 +175,39 @@ public:
         return false;
     }
 
-    bool isItemAtEqual(T value, int index)
-    {
+    bool isItemAtEqual(T value, int index) {
         Node<T> *curr = head;
-        while (index--)
-        {
+        while (index--) {
             curr = curr->next;
         }
         return (value == curr->value);
     }
 
-    void swap(int firstIndex, int secondIndex)
-    {
-        if (firstIndex == secondIndex)
-        {
+    void swap(int firstIndex, int secondIndex) {
+        if (firstIndex == secondIndex) {
             return;
         }
         Node<T> *fnd1 = head, *fnd2 = head, *beforeFnd1 = nullptr, *beforeFnd2 = nullptr;
-        while (firstIndex || secondIndex)
-        {
-            if (firstIndex)
-            {
+        while (firstIndex || secondIndex) {
+            if (firstIndex) {
                 beforeFnd1 = fnd1;
                 fnd1 = fnd1->next;
                 firstIndex--;
             }
-            if (secondIndex)
-            {
+            if (secondIndex) {
                 beforeFnd2 = fnd2;
                 fnd2 = fnd2->next;
                 secondIndex--;
             }
         }
 
-        if (beforeFnd1 != nullptr && beforeFnd2 != nullptr)
-        {
+        if (beforeFnd1 != nullptr && beforeFnd2 != nullptr) {
             beforeFnd1->next = fnd2;
             beforeFnd2->next = fnd1;
-        }
-        else if (beforeFnd1 == nullptr)
-        {
+        } else if (beforeFnd1 == nullptr) {
             head = fnd2;
             beforeFnd2->next = fnd1;
-        }
-        else
-        {
+        } else {
             head = fnd1;
             beforeFnd1->next = fnd2;
         }
@@ -262,32 +216,26 @@ public:
         fnd1->next = fnd2->next;
         fnd2->next = temp;
 
-        if (fnd1->next == nullptr)
-        {
+        if (fnd1->next == nullptr) {
             tail = fnd1;
         }
-        if (fnd2->next == nullptr)
-        {
+        if (fnd2->next == nullptr) {
             tail = fnd2;
         }
     }
 
-    int linkedListSize()
-    {
+    int linkedListSize() {
         return size;
     }
 
-    void clear()
-    {
-        while (!isEmpty())
-        {
+    void clear() {
+        while (!isEmpty()) {
             removeAtHead();
         }
     }
 };
 
-int main()
-{
+int main() {
     LinkList<int> myList;
     myList.insertAtHead(1);
     myList.insertAtHead(2);

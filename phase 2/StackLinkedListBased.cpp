@@ -1,52 +1,79 @@
 #include <iostream>
-#include <list>
-#include <stdexcept>
 using namespace std;
 
-template <typename T>
+template <class T>
 class Stack {
-private:
-    list<T> datalist;
-public:
+  private:
+    struct Node {
+        T value;
+        Node *next = nullptr;
+        Node(T value, Node *next) : value(value), next(next) {}
+    };
+
+    int size = 0;
+    Node *head = nullptr;
+
+  public:
     Stack() {
-        list<T> mylist;
+        head = nullptr;
+        size = 0;
     }
-    Stack(int size) {
-        list<T> mylist(size);
-    }
-    void push(T val) {
-        datalist.push_front(val);
-    }
+
     T top() {
-        if (datalist.empty()) {
-            throw underflow_error("Stack is Empty!");
+        if (!size)
+            throw invalid_argument("Empty Stack");
+        return head->value;
+    }
+
+    void push(T value) {
+        head = new Node(value, head);
+        size++;
+    }
+
+    void pop() {
+        if (!size) {
+            throw invalid_argument("Empty Stack");
         }
-        return datalist.front();
+        Node *temp = head;
+        head = head->next;
+        delete temp;
+        size--;
     }
-    T pop() {
-        if (datalist.empty()) {
-            throw underflow_error("Stack has no elements!");
-        }
-        T poppedValue = datalist.front();
-        datalist.pop_front();
-        return poppedValue;
-    }
-    bool isEmpty() {
-        return (datalist.empty());
-    }
-    int stackSize() {
-        return datalist.size();
-    }
+
     void print() {
-        for (auto it = datalist.rbegin(); it != datalist.rend(); it++) {
-            cout << *(it) << " ";
+        Node *curr = head;
+        while (curr) {
+            cout << curr->value << ' ';
+            curr = curr->next;
         }
+        cout << '\n';
     }
-    void clear() {
-        datalist.clear();
+
+    int stackSize() {
+        return size;
+    }
+
+    bool empty() {
+        return size == 0;
     }
 };
 
-int main()
-{
+int main() {
+    Stack<int> ss;
+
+    ss.push(1);
+    ss.push(2);
+    ss.push(3);
+    ss.push(4);
+    ss.push(5);
+
+    cout << ss.stackSize() << '\n';
+    ss.print();
+
+    ss.pop();
+
+    ss.pop();
+
+    cout << ss.stackSize() << '\n';
+    ss.print();
 }
